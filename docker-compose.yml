@@ -1,0 +1,53 @@
+version: "3.3"
+
+services:
+  auth:
+    image: pomerium/pomerium:arm32v7-v0.8.3
+    restart: unless-stopped
+    volumes:
+      - ./data:/data:rw
+    ports:
+      - 443:443
+      - 80:80
+    environment:
+      - AUTHENTICATE_SERVICE_URL=${AUTHENTICATE_SERVICE_URL}
+      - AUTOCERT=${AUTOCERT}
+      - COOKIE_SECRET=${COOKIE_SECRET}
+      - IDP_PROVIDER=${IDP_PROVIDER}
+      - IDP_CLIENT_ID=${IDP_CLIENT_ID}
+      - IDP_CLIENT_SECRET=${IDP_CLIENT_SECRET}
+      - POLICY=${POMERIUM_POLICY}
+  cellar-webapp:
+    ports:
+      - 3000:3000
+    restart: unless-stopped
+    build:
+      context: packages/cellarpanel
+      dockerfile: Dockerfile
+    volumes:
+      - ./packages/cellarpanel:/usr/src/app
+      - /usr/src/app/node_modules
+      - /usr/src/app/.next
+    env_file:
+      - .env
+  cellar-service:
+    ports:
+      - 5000:5000
+    restart: unless-stopped
+    build:
+      context: packages/flask_app
+      dockerfile: Dockerfile
+    environment:
+      - DEBUG=${DEBUG}
+      - CELLAR_NAME=${CELLAR_NAME}
+      - CELLAR_PANEL_IP=${CELLAR_PANEL_IP}
+      - INFLUX_CLIENT_URL=${INFLUX_CLIENT_URL}
+      - INFLUX_DB_TOKEN=${INFLUX_DB_TOKEN}
+      - INFLUX_ORG=${INFLUX_ORG}
+      - INFLUX_BUCKET=${INFLUX_BUCKET}
+      - AWS_DEFAULT_REGION=${AWS_REGION}
+      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY}
+      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_KEY}
+      - PRODUCTION_SPREADSHEET_ID=${PRODUCTION_SPREADSHEET_ID}
+      - MAIN_SHEET_NAME=${MAIN_SHEET_NAME}
+      - GOOGLE_SERVICE_AUTH=${GOOGLE_SERVICE_AUTH}

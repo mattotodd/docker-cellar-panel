@@ -1,0 +1,22 @@
+export DEBUG=0
+export CELLAR_NAME="SuperCellar"
+export CELLAR_PANEL_IP=10.1.10.105
+# pomerium
+export AUTHENTICATE_SERVICE_URL=https://auth.corp.beerco.com
+export AUTOCERT=true
+# Generate 256 bit random keys  e.g. `head -c32 /dev/urandom | base64`
+export COOKIE_SECRET=
+export IDP_PROVIDER=google
+export IDP_CLIENT_ID=
+export IDP_CLIENT_SECRET=
+export POMERIUM_POLICY=
+export INFLUX_CLIENT_URL=https://us-west-2-1.aws.cloud2.influxdata.com
+export INFLUX_DB_TOKEN=
+export INFLUX_ORG=
+export INFLUX_BUCKET=
+export AWS_REGION=us-east-1
+export AWS_ACCESS_KEY=
+export AWS_SECRET_KEY=
+export PRODUCTION_SPREADSHEET_ID=
+export MAIN_SHEET_NAME=
+export GOOGLE_SERVICE_AUTH=

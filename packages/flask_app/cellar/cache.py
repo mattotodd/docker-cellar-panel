@@ -1,0 +1,1 @@
+LAST_READING = None

@@ -1,0 +1,18 @@
+[[source]]
+name = "pypi"
+url = "https://pypi.org/simple"
+verify_ssl = true
+
+[dev-packages]
+
+[packages]
+Flask = "==0.12"
+requests = "*"
+apscheduler = "*"
+influxdb-client = "*"
+google-auth-httplib2 = "*"
+google-api-python-client = "*"
+boto3 = "*"
+
+[requires]
+python_version = "3.8"
