@@ -8,8 +8,7 @@ from datetime import date, datetime
 from .influxdb import write_to_influx, panel_info_to_influx_points
 
 from cellar import cache
-from cellar import google 
-from cellar import aws
+from cellar import google
 
 CELLAR_PANEL_IP = os.environ['CELLAR_PANEL_IP']
 
@@ -164,5 +163,4 @@ def read_and_store_cellar_panel():
 	info = get_panel_information()
 	points = panel_info_to_influx_points(info)
 	write_to_influx(points)
-	aws.record_cloudwatch_metric()
 
