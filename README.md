@@ -38,7 +38,6 @@ The cellar service is a [Flask](https://flask.palletsprojects.com/en/1.1.x/quick
 Every 60 seconds it:
 - Reads temp/setpoint/valve data from the cellar panel and caches that data, so any downstream services read from the cache and do not hit the cellar panel directly.
 - Records the data to [InfluxDB](https://www.influxdata.com/) (they offer a free tier with 30 days data retention - [cloud2.influxdata.com](https://cloud2.influxdata.com))
-- Sends a heartbeat metric to [AWS Cloudwatch](https://aws.amazon.com/cloudwatch/) to monitor if the system goes down
 
 We also sync with a google spreadsheet to get production batch information about the beer in each vessel.
 
@@ -60,7 +59,7 @@ Timesseries data can be retreieved using the InfluxDB cloud explorer.
 
 ## Alarms
 
-The `cellar-servcie` current records a heartbeat to AWS Cloudwatch. We can then set alarms based off conditions in the brewery. For now, we trigger an alarm if we dont have any readings for more than 5 minutes; this is our master alarm. We have issues with the power going out, so its nice to be notified.
+The `cellar-servcie` current records data to InfluxDB Cloud. We can then set alarms based off conditions in the brewery. For now, we trigger an alarm if we dont have any readings for more than 5 minutes; this is our master alarm. We have issues with the power going out, so its nice to be notified.
 
 The the alarm conditions are pushed to [Squadcast](https://www.squadcast.com/) we can manage on-call responses and escalate the issue through our brewery team (they offer a free tier for less than 10 employees which works for us).
 
@@ -115,7 +114,7 @@ nano .env
 Then set the follow vars described below:
 
 ```
-CELLAR_NAME =  name of cellar - used for cloudwatch metric
+CELLAR_NAME =  name of cellar - used for logging
 CELLAR_PANEL_IP = IP address of the Alpha cellar panel on your local network
 # pomerium
 AUTHENTICATE_SERVICE_URL= domain where pomerium auth will take place
@@ -130,9 +129,6 @@ INFLUX_CLIENT_URL=https://us-west-2-1.aws.cloud2.influxdata.com
 INFLUX_DB_TOKEN = # created from influxdb cloud
 INFLUX_ORG= # created from influxdb cloud
 INFLUX_BUCKET= # created from influxdb cloud
-AWS_REGION=us-east-1
-AWS_ACCESS_KEY= # aws access credentials with PutMetricData write access to cloudwatch
-AWS_SECRET_KEY= # aws access credentials with PutMetricData write access to cloudwatch
 PRODUCTION_SPREADSHEET_ID= # google spreadsheet id
 MAIN_SHEET_NAME= # sheet name
 GOOGLE_SERVICE_AUTH=based64 encoded service auth creds
