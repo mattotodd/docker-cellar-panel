@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "6ff2b1deb69d76ff2b52ac615d4884cc9e2dd8f9eae640fd73a878e53d2fa352"
+            "sha256": "1eee07017e74cc88c6ac67e62a7c0abd385f1c15f93e4afcd17c27febe6a84a9"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -61,13 +61,6 @@
             ],
             "index": "pypi",
             "version": "==0.12"
-        },
-        "flask-papertrail": {
-            "hashes": [
-                "sha256:bed4f618519aa9261cdee6958a4d8baeccebcbfe5bfa34edefe0c864b4e8557e"
-            ],
-            "index": "pypi",
-            "version": "==0.0.3"
         },
         "google-api-core": {
             "hashes": [

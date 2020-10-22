@@ -4,6 +4,11 @@ services:
   auth:
     image: pomerium/pomerium:arm32v7-v0.8.3
     restart: unless-stopped
+    logging:
+      driver: syslog
+      options:
+        syslog-address: "udp://${PAPERTRAIL_HOST}:${PAPERTRAIL_PORT}"
+        tag: "${CELLAR_NAME}/auth/{{.ID}}"
     volumes:
       - ./data:/data:rw
     ports:
@@ -24,6 +29,11 @@ services:
     build:
       context: packages/cellarpanel
       dockerfile: Dockerfile
+    logging:
+      driver: syslog
+      options:
+        syslog-address: "udp://${PAPERTRAIL_HOST}:${PAPERTRAIL_PORT}"
+        tag: "${CELLAR_NAME}/webapp/{{.ID}}"
     volumes:
       - ./packages/cellarpanel:/usr/src/app
       - /usr/src/app/node_modules
@@ -37,6 +47,11 @@ services:
     build:
       context: packages/flask_app
       dockerfile: Dockerfile
+    logging:
+      driver: syslog
+      options:
+        syslog-address: "udp://${PAPERTRAIL_HOST}:${PAPERTRAIL_PORT}"
+        tag: "${CELLAR_NAME}/service/{{.ID}}"
     environment:
       - DEBUG=${DEBUG}
       - CELLAR_NAME=${CELLAR_NAME}
@@ -48,9 +63,6 @@ services:
       - INFLUX_DB_TOKEN=${INFLUX_DB_TOKEN}
       - INFLUX_ORG=${INFLUX_ORG}
       - INFLUX_BUCKET=${INFLUX_BUCKET}
-      - AWS_DEFAULT_REGION=${AWS_REGION}
-      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY}
-      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_KEY}
       - PRODUCTION_SPREADSHEET_ID=${PRODUCTION_SPREADSHEET_ID}
       - MAIN_SHEET_NAME=${MAIN_SHEET_NAME}
       - GOOGLE_SERVICE_AUTH=${GOOGLE_SERVICE_AUTH}
